@@ -56,9 +56,6 @@ jobs:
       - name: Build (skip TypeScript check)
         run: pnpm exec vite build
         
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-        
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
@@ -67,11 +64,14 @@ jobs:
   # Job di deployment
   deploy:
     environment:
-      name: pages
+      name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     needs: build
     steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
